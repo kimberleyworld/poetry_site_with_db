@@ -124,7 +124,11 @@ exports.Prisma.PoemScalarFieldEnum = {
   id: 'id',
   title: 'title',
   author: 'author',
+  reader: 'reader',
+  description: 'description',
   content: 'content',
+  contentType: 'contentType',
+  eventDate: 'eventDate',
   createdAt: 'createdAt'
 };
 
@@ -136,6 +140,11 @@ exports.Prisma.SortOrder = {
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 
 

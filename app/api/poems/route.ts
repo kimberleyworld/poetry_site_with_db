@@ -31,13 +31,25 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
+
+    // Validate content type
+    if (body.contentType && !['text', 'image', 'audio'].includes(body.contentType)) {
+      return NextResponse.json(
+        { error: 'Content type must be text, image, or audio' },
+        { status: 400 }
+      );
+    }
     
     // Create poem with validated and trimmed data
     const poem = await prisma.poem.create({
       data: {
         title: body.title.trim(),
         author: body.author.trim(),
+        reader: body.reader ? body.reader.trim() : null,
+        description: body.description ? body.description.trim() : null,
         content: body.content.trim(),
+        contentType: body.contentType || 'text',
+        eventDate: body.eventDate ? new Date(body.eventDate) : null,
       }
     });
     

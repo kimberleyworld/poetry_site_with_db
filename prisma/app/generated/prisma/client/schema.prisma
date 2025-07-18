@@ -11,13 +11,17 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DIRECT_URL")
 }
 
 model Poem {
-  id        Int      @id @default(autoincrement())
-  title     String
-  author    String
-  content   String   @db.Text
-  createdAt DateTime @default(now())
+  id          Int       @id @default(autoincrement())
+  title       String
+  author      String
+  reader      String?
+  description String?
+  content     String    @db.Text // Can store text, image URL, or mp3 URL
+  contentType String    @default("text") // "text", "image", or "audio"
+  eventDate   DateTime?
+  createdAt   DateTime  @default(now())
 }

@@ -1,9 +1,11 @@
-import PoemsPage from "./poems/page";
+import HeroSection from "@/components/Hero";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
   return (
     <div>
-      <PoemsPage />
+      <Navbar />
+      <HeroSection />
     </div>
   );
 }
