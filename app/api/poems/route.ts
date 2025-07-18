@@ -9,55 +9,31 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    console.log('Received request body:', body);
     
-    // Validate required fields
-    if (!body.title || typeof body.title !== 'string' || body.title.trim() === '') {
-      return NextResponse.json(
-        { error: 'Title is required and must be a non-empty string' },
-        { status: 400 }
-      );
-    }
-    
-    if (!body.author || typeof body.author !== 'string' || body.author.trim() === '') {
-      return NextResponse.json(
-        { error: 'Author is required and must be a non-empty string' },
-        { status: 400 }
-      );
-    }
-    
-    if (!body.content || typeof body.content !== 'string' || body.content.trim() === '') {
-      return NextResponse.json(
-        { error: 'Content is required and must be a non-empty string' },
-        { status: 400 }
-      );
-    }
-
-    // Validate content type
-    if (body.contentType && !['text', 'image', 'audio'].includes(body.contentType)) {
-      return NextResponse.json(
-        { error: 'Content type must be text, image, or audio' },
-        { status: 400 }
-      );
-    }
-    
-    // Create poem with validated and trimmed data
     const poem = await prisma.poem.create({
       data: {
-        title: body.title.trim(),
-        author: body.author.trim(),
-        reader: body.reader ? body.reader.trim() : null,
-        description: body.description ? body.description.trim() : null,
-        content: body.content.trim(),
+        title: body.title,
+        author: body.author,
+        reader: body.reader,
+        description: body.description,
+        content: body.content,
         contentType: body.contentType || 'text',
-        eventDate: body.eventDate ? new Date(body.eventDate) : null,
+        eventDate: new Date(body.eventDate),
       }
     });
     
+    console.log('Created poem successfully:', poem);
     return NextResponse.json(poem, { status: 201 });
   } catch (error) {
     console.error('Error creating poem:', error);
+    
+    // Return more detailed error information
     return NextResponse.json(
-      { error: 'Failed to create poem' },
+      { 
+        error: 'Failed to create poem',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }

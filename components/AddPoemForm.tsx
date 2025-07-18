@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { CalendarIcon, Upload, FileText, Image, Music } from 'lucide-react';
+import { CalendarIcon, FileText, Image, Music } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface AddPoemFormProps {
@@ -100,21 +100,27 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
         content = await uploadFile(selectedFile);
       }
 
+      const requestBody = {
+        title: formData.title,
+        author: formData.author,
+        reader: formData.reader,
+        description: formData.description,
+        content,
+        contentType: formData.contentType,
+        eventDate: eventDate?.toISOString(),
+      };
+
+      console.log('Sending request body:', requestBody);
+
       const response = await fetch('/api/poems', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          title: formData.title,
-          author: formData.author,
-          reader: formData.reader || null,
-          description: formData.description || null,
-          content,
-          contentType: formData.contentType,
-          eventDate: eventDate ? eventDate.toISOString() : null,
-        }),
+        body: JSON.stringify(requestBody),
       });
+
+      console.log('Response status:', response.status);
 
       if (response.ok) {
         // Reset form
@@ -130,10 +136,22 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
         setSelectedFile(null);
         onPoemAdded();
       } else {
-        throw new Error('Failed to create poem');
+        const errorText = await response.text();
+        console.error('API Error Response:', errorText);
+        console.error('Response status:', response.status);
+        
+        let errorData;
+        try {
+          errorData = JSON.parse(errorText);
+        } catch (e) {
+          errorData = { error: errorText };
+        }
+        
+        throw new Error(errorData.error || 'Failed to create poem');
       }
     } catch (error) {
       console.error('Error adding poem:', error);
+      alert(`Error: ${error instanceof Error ? error.message : 'Failed to create poem'}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -173,7 +191,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="reader">Reader (optional)</Label>
+              <Label htmlFor="reader">Reader *</Label>
               <Input
                 id="reader"
                 value={formData.reader}
@@ -181,7 +199,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
               />
             </div>
             <div>
-              <Label>Event Date (optional)</Label>
+              <Label>Event Date *</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
@@ -197,7 +215,6 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
                     mode="single"
                     selected={eventDate}
                     onSelect={setEventDate}
-                    initialFocus
                   />
                 </PopoverContent>
               </Popover>
@@ -205,7 +222,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
           </div>
 
           <div>
-            <Label htmlFor="description">Description (optional)</Label>
+            <Label htmlFor="description">Description *</Label>
             <Textarea
               id="description"
               value={formData.description}
