@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/db';
-import { Poem } from '@/app/generated/prisma/client'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 export default async function PoemsPage() {
   const poems = await prisma.poem.findMany();
@@ -7,11 +7,15 @@ export default async function PoemsPage() {
   return (
     <div>
       {poems.map((poem) => (
-        <div key={poem.id}>
-          <h2>{poem.title}</h2>
-          <p>By {poem.author}</p>
-          <p>{poem.content}</p>
-        </div>
+        <Card key={poem.id}>
+          <CardHeader>
+            <CardTitle>{poem.title}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p>By {poem.author}</p>
+            <p>{poem.content}</p>
+          </CardContent>
+        </Card>
       ))}
     </div>
   );
