@@ -6,7 +6,7 @@ export default async function PoemsPage() {
 
   return (
     <div>
-      {poems.map((poem: Poem) => (
+      {poems.map((poem) => (
         <div key={poem.id}>
           <h2>{poem.title}</h2>
           <p>By {poem.author}</p>
