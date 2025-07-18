@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/db';
-import { Poem } from '../../app/generated/prisma/client'
+import { Poem } from '@/app/generated/prisma/client'
 
 export default async function PoemsPage() {
   const poems = await prisma.poem.findMany();
