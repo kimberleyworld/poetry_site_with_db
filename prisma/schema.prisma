@@ -13,3 +13,11 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Poem {
+  id        Int      @id @default(autoincrement())
+  title     String
+  author    String
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+}
