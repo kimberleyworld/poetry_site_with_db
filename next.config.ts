@@ -5,7 +5,12 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: new URL(process.env.NEXT_PUBLIC_SUPABASE_URL!).hostname,
+        hostname: (() => {
+          if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+            throw new Error("Environment variable NEXT_PUBLIC_SUPABASE_URL is not defined.");
+          }
+          return new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname;
+        })(),
         port: '',
         pathname: '/storage/v1/object/public/**',
       },
