@@ -71,7 +71,6 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
         return;
       }
     } else if (formData.contentType === 'audio') {
-      // ADD MAX SIZE CHECK FOR AUDIO
       if (!file.type.match(/^audio\/(mp3|mpeg)$/)) {
         setFileError('Only MP3 files are allowed');
         setSelectedFile(null);
@@ -208,6 +207,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
                 id="reader"
                 value={formData.reader}
                 onChange={(e) => handleInputChange('reader', e.target.value)}
+                required
               />
             </div>
             <div>
@@ -240,6 +240,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
               value={formData.description}
               onChange={(e) => handleInputChange('description', e.target.value)}
               rows={2}
+              required
             />
           </div>
 
