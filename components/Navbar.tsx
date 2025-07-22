@@ -19,9 +19,6 @@ function Navbar() {
                 <NavigationMenuItem>
                   <NavigationMenuLink href="/archive">Archive</NavigationMenuLink>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink href="/admin">Admin</NavigationMenuLink>
-                </NavigationMenuItem>
                 {/* Add more navigation items as needed */}
               </NavigationMenuList>
             </NavigationMenu>
