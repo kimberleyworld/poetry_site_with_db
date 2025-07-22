@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
-import { Poem } from '@/prisma/app/generated/prisma/client';
+import { Poem } from '@prisma/client';
 import PoemCard from '@/components/PoemCard';
 
 interface PoemsClientProps {

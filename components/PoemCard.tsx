@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Poem } from '@/prisma/app/generated/prisma/client';
+import { Poem } from '@prisma/client';
 import Link from 'next/link';
 
 interface PoemCardProps {
