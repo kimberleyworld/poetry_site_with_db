@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar';
 
 export default async function PoemsPage() {
   const poems = await prisma.poem.findMany({
+    where: { approved: true },
     orderBy: { createdAt: 'desc' },
   });
 
