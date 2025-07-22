@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Poem } from '../app/generated/prisma/client';
+import { Poem } from '@/prisma/app/generated/prisma/client';
 import Link from 'next/link';
 
 interface PoemCardProps {
@@ -20,10 +20,10 @@ export default function PoemCard({ poem }: PoemCardProps) {
             WebkitLineClamp: 3, 
             WebkitBoxOrient: 'vertical' 
           }}>
-            {poem.content}
+            {poem.description}
           </p>
           <p className="text-xs text-gray-500 mt-2">
-            Click to read more...
+            Click to read...
           </p>
         </CardContent>
       </Card>
