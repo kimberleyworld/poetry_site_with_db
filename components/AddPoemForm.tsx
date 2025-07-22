@@ -45,9 +45,20 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file size (max 200KB)
-    if (file.size > 200 * 1024) {
-      setFileError('File size must be less than 200KB');
+    // Validate file size based on type
+    const maxImageSize = 2 * 1024 * 1024; // 2MB for images
+    const maxAudioSize = 5 * 1024 * 1024; // 5MB for audio
+    
+    let maxSize;
+    if (formData.contentType === 'image') {
+      maxSize = maxImageSize;
+    } else if (formData.contentType === 'audio') {
+      maxSize = maxAudioSize;
+    }
+
+    if (file.size > maxSize!) {
+      const maxSizeMB = Math.round(maxSize! / (1024 * 1024));
+      setFileError(`File size must be less than ${maxSizeMB}MB`);
       setSelectedFile(null);
       return;
     }
@@ -282,7 +293,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
           {(formData.contentType === 'image' || formData.contentType === 'audio') && (
             <div>
               <Label htmlFor="file">
-                {formData.contentType === 'image' ? 'Upload Image (PNG/JPG, max 200KB) *' : 'Upload Audio (MP3, max 200KB) *'}
+                {formData.contentType === 'image' ? 'Upload Image (PNG/JPG, max 2MB) *' : 'Upload Audio (MP3, max 5MB) *'}
               </Label>
               <div className="mt-2">
                 <Input

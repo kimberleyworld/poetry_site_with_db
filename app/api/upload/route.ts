@@ -15,9 +15,26 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No file found' }, { status: 400 });
     }
 
-    // Validate file size (max 200KB)
-    if (file.size > 200 * 1024) {
-      return NextResponse.json({ error: 'File too large. Max size is 200KB' }, { status: 400 });
+    // Validate file size based on type
+    const maxImageSize = 2 * 1024 * 1024; // 2MB for images
+    const maxAudioSize = 5 * 1024 * 1024; // 5MB for audio
+    
+    const mimeType = file.type.toLowerCase();
+    let maxSize;
+    
+    if (mimeType.startsWith('image/')) {
+      maxSize = maxImageSize;
+    } else if (mimeType.startsWith('audio/')) {
+      maxSize = maxAudioSize;
+    } else {
+      return NextResponse.json({ error: 'Unsupported file type' }, { status: 400 });
+    }
+
+    if (file.size > maxSize) {
+      const maxSizeMB = Math.round(maxSize / (1024 * 1024));
+      return NextResponse.json({ 
+        error: `File too large. Max size is ${maxSizeMB}MB for ${mimeType.startsWith('image/') ? 'images' : 'audio'}` 
+      }, { status: 400 });
     }
 
     // Create unique filename with subfolder based on file type
@@ -26,9 +43,8 @@ export async function POST(request: NextRequest) {
     const extension = originalName.split('.').pop()?.toLowerCase();
     const baseFilename = `${timestamp}_${Math.random().toString(36).substring(7)}.${extension}`;
     
-    // Determine subfolder based on file type
+    // Determine subfolder based on file type (reusing mimeType from above)
     let subfolder = '';
-    const mimeType = file.type.toLowerCase();
     
     if (mimeType.startsWith('image/')) {
       subfolder = 'images';
