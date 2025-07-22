@@ -23,11 +23,8 @@ export async function POST(req: Request) {
       }
     });
     
-    console.log('Created poem successfully:', poem);
     return NextResponse.json(poem, { status: 201 });
-  } catch (error) {
-    console.error('Error creating poem:', error);
-    
+  } catch (error) {    
     // Return more detailed error information
     return NextResponse.json(
       { 

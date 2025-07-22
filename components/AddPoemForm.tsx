@@ -60,6 +60,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
         return;
       }
     } else if (formData.contentType === 'audio') {
+      // ADD MAX SIZE CHECK FOR AUDIO
       if (!file.type.match(/^audio\/(mp3|mpeg)$/)) {
         setFileError('Only MP3 files are allowed');
         setSelectedFile(null);
