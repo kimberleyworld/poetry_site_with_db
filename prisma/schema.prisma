@@ -23,4 +23,5 @@ model Poem {
   contentType String   @default("text") // "text", "image", or "audio"
   eventDate   DateTime
   createdAt   DateTime @default(now())
+  approved    Boolean  @default(false) 
 }
