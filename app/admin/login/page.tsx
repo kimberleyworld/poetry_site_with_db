@@ -30,11 +30,8 @@ export default function AdminLoginPage() {
         toast.success('Authentication successful!', {
           description: 'Redirecting to admin panel...',
         });
-        // Small delay to show the toast before redirect
-        setTimeout(() => {
-          router.push('/admin');
-          router.refresh();
-        }, 1000);
+        router.push('/admin');
+        router.refresh();
       } else {
         const data = await response.json();
         toast.error('Authentication failed', {
