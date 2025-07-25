@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import { generateAdminToken } from '@/lib/jwt';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
@@ -8,9 +9,12 @@ export async function POST(request: Request) {
     const { password } = await request.json();
 
     if (password === ADMIN_PASSWORD) {
-      // Set authentication cookie
+      // Generate JWT token
+      const token = generateAdminToken();
+      
+      // Set secure JWT token cookie
       const cookieStore = await cookies();
-      cookieStore.set('admin-auth', 'authenticated', {
+      cookieStore.set('admin-token', token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
@@ -38,7 +42,7 @@ export async function POST(request: Request) {
 export async function DELETE() {
   try {
     const cookieStore = await cookies();
-    cookieStore.delete('admin-auth');
+    cookieStore.delete('admin-token');
     
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -1,8 +1,29 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { cookies } from 'next/headers';
+import { verifyAdminToken } from '@/lib/jwt';
 
 export async function POST(request: Request) {
   try {
+    // Verify JWT token
+    const cookieStore = await cookies();
+    const token = cookieStore.get('admin-token')?.value;
+    
+    if (!token) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+    
+    const payload = verifyAdminToken(token);
+    if (!payload || !payload.isAdmin) {
+      return NextResponse.json(
+        { error: 'Invalid authentication' },
+        { status: 401 }
+      );
+    }
+
     const { poemId, approved } = await request.json();
 
     if (typeof poemId !== 'number' || typeof approved !== 'boolean') {

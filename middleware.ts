@@ -6,13 +6,15 @@ export function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith('/admin') && 
       !request.nextUrl.pathname.startsWith('/admin/login')) {
     
-    // Check if user is authenticated
-    const isAuthenticated = request.cookies.get('admin-auth')?.value === 'authenticated';
+    // Check if user has a token (basic check)
+    const token = request.cookies.get('admin-token')?.value;
     
-    if (!isAuthenticated) {
-      // Redirect to login page
+    if (!token) {
+      // No token present, redirect to login
       return NextResponse.redirect(new URL('/admin/login', request.url));
     }
+    
+    // Token exists - detailed verification happens in the page/API routes
   }
 
   return NextResponse.next();

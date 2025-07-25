@@ -2,8 +2,24 @@ import { prisma } from '@/lib/db';
 import AdminApprovalClient from '@/app/admin/AdminApprovalClient';
 import Navbar from '@/components/Navbar';
 import AdminLogout from './AdminLogout';
+import { cookies } from 'next/headers';
+import { verifyAdminToken } from '@/lib/jwt';
+import { redirect } from 'next/navigation';
 
 export default async function AdminPage() {
+  // Verify JWT token on server side
+  const cookieStore = await cookies();
+  const token = cookieStore.get('admin-token')?.value;
+  
+  if (!token) {
+    redirect('/admin/login');
+  }
+  
+  const payload = verifyAdminToken(token);
+  if (!payload || !payload.isAdmin) {
+    redirect('/admin/login');
+  }
+
   const pendingPoems = await prisma.poem.findMany({
     where: { approved: false },
     orderBy: { createdAt: 'desc' },
