@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
-// Set your admin password here (in production, use environment variables)
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'your-secure-password-2025';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 export async function POST(request: Request) {
   try {

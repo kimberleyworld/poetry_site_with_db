@@ -7,18 +7,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Lock, Eye, EyeOff } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setError('');
 
     try {
       const response = await fetch('/api/admin/auth', {
@@ -28,15 +27,24 @@ export default function AdminLoginPage() {
       });
 
       if (response.ok) {
-        // Redirect to admin panel
-        router.push('/admin');
-        router.refresh();
+        toast.success('Authentication successful!', {
+          description: 'Redirecting to admin panel...',
+        });
+        // Small delay to show the toast before redirect
+        setTimeout(() => {
+          router.push('/admin');
+          router.refresh();
+        }, 1000);
       } else {
         const data = await response.json();
-        setError(data.error || 'Invalid password');
+        toast.error('Authentication failed', {
+          description: data.error || 'Invalid password. Please try again.',
+        });
       }
-    } catch (error) {
-      setError('An error occurred. Please try again.');
+    } catch {
+      toast.error('Connection error', {
+        description: 'Unable to connect to the server. Please try again.',
+      });
     } finally {
       setIsLoading(false);
     }
@@ -86,12 +94,6 @@ export default function AdminLoginPage() {
                   </button>
                 </div>
               </div>
-
-              {error && (
-                <div className="text-red-600 text-sm text-center bg-red-50 p-2 rounded">
-                  {error}
-                </div>
-              )}
 
               <Button
                 type="submit"

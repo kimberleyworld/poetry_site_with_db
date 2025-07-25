@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CheckCircle, XCircle, Clock, User, Calendar, FileText } from 'lucide-react';
 import { format } from 'date-fns';
 import Image from 'next/image';
+import { toast } from 'sonner';
 
 interface AdminApprovalClientProps {
   pendingPoems: Poem[];
@@ -37,13 +38,21 @@ export default function AdminApprovalClient({
         if (poem) {
           setPendingPoems(prev => prev.filter(p => p.id !== poemId));
           setApprovedPoems(prev => [{ ...poem, approved: true }, ...prev]);
+          toast.success(`"${poem.title}" has been approved successfully!`, {
+            description: 'The poem is now visible in the archive.',
+          });
         }
       } else {
-        alert('Failed to approve poem');
+        const errorData = await response.json();
+        toast.error('Failed to approve poem', {
+          description: errorData.error || 'Please try again.',
+        });
       }
     } catch (error) {
       console.error('Error approving poem:', error);
-      alert('Error approving poem');
+      toast.error('Error approving poem', {
+        description: 'A network error occurred. Please check your connection and try again.',
+      });
     } finally {
       setIsLoading(null);
     }
@@ -59,13 +68,22 @@ export default function AdminApprovalClient({
       });
 
       if (response.ok) {
+        const poem = pendingPoems.find(p => p.id === poemId);
         setPendingPoems(prev => prev.filter(p => p.id !== poemId));
+        toast.success(`"${poem?.title || 'Poem'}" has been rejected and removed.`, {
+          description: 'The poem has been permanently deleted from the system.',
+        });
       } else {
-        alert('Failed to reject poem');
+        const errorData = await response.json();
+        toast.error('Failed to reject poem', {
+          description: errorData.error || 'Please try again.',
+        });
       }
     } catch (error) {
       console.error('Error rejecting poem:', error);
-      alert('Error rejecting poem');
+      toast.error('Error rejecting poem', {
+        description: 'A network error occurred. Please check your connection and try again.',
+      });
     } finally {
       setIsLoading(null);
     }
