@@ -15,7 +15,9 @@ export default function Home() {
       <WebGLBackground />
       <Navbar />
       <HeroSection />
-      <AddPoemForm onPoemAdded={handlePoemAdded} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-8 lg:pt-10 pb-12 sm:pb-16 lg:pb-20">
+        <AddPoemForm onPoemAdded={handlePoemAdded} />
+      </div>
     </div>
   );
 }
