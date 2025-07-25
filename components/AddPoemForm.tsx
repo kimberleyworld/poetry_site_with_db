@@ -169,9 +169,9 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className="w-full max-w-2xl mx-auto backdrop-blur-lg bg-white/30 border border-white/20 shadow-xl">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-gray-800">
           <FileText className="h-5 w-5" />
           Add New Poem
         </CardTitle>
@@ -181,7 +181,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
           {/* Basic Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="title">Title *</Label>
+              <Label htmlFor="title" className="mb-2 block">Title *</Label>
               <Input
                 id="title"
                 value={formData.title}
@@ -190,7 +190,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
               />
             </div>
             <div>
-              <Label htmlFor="author">Author *</Label>
+              <Label htmlFor="author" className="mb-2 block">Author *</Label>
               <Input
                 id="author"
                 value={formData.author}
@@ -202,7 +202,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="reader">Reader *</Label>
+              <Label htmlFor="reader" className="mb-2 block">Reader *</Label>
               <Input
                 id="reader"
                 value={formData.reader}
@@ -211,7 +211,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
               />
             </div>
             <div>
-              <Label>Event Date *</Label>
+              <Label className="mb-2 block">Event Date *</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
@@ -234,7 +234,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
           </div>
 
           <div>
-            <Label htmlFor="description">Description *</Label>
+            <Label htmlFor="description" className="mb-2 block">Description *</Label>
             <Textarea
               id="description"
               value={formData.description}
@@ -246,7 +246,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
 
           {/* Content Type Selection */}
           <div>
-            <Label>Content Type *</Label>
+            <Label className="mb-2 block">Content Type *</Label>
             <RadioGroup
               value={formData.contentType}
               onValueChange={handleContentTypeChange}
@@ -279,7 +279,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
           {/* Content Input */}
           {formData.contentType === 'text' && (
             <div>
-              <Label htmlFor="content">Poem Content *</Label>
+              <Label htmlFor="content" className="mb-2 block">Poem Content *</Label>
               <Textarea
                 id="content"
                 value={formData.content}
@@ -293,7 +293,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
 
           {(formData.contentType === 'image' || formData.contentType === 'audio') && (
             <div>
-              <Label htmlFor="file">
+              <Label htmlFor="file" className="mb-2 block">
                 {formData.contentType === 'image' ? 'Upload Image (PNG/JPG, max 2MB) *' : 'Upload Audio (MP3, max 5MB) *'}
               </Label>
               <div className="mt-2">
