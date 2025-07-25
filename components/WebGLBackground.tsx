@@ -24,7 +24,7 @@ const WebGLBackground: React.FC = () => {
       }
     `;
 
-    // Fragment shader source (your shader with added clouds)
+    // Fragment shader source
     const fragmentShaderSource = `
       precision mediump float;
       uniform vec2 iResolution;
@@ -48,72 +48,79 @@ const WebGLBackground: React.FC = () => {
         vec2 fragCoord = gl_FragCoord.xy;
         vec2 uv = fragCoord / iResolution.xy;
 
-        // Slower time-based movement for background
-        vec3 base = 0.5 + 0.5 * cos(iTime * 0.5 + uv.xyx + vec3(0.0, 2.0, 4.0));
-
-        // Softer pastel colors
-        vec3 pastelWhite  = vec3(0.95, 0.9, 0.92);
-        vec3 pastelOrange = vec3(0.95, 0.65, 0.5);
-        vec3 pastelBlue   = vec3(0.5, 0.65, 0.85);
-        vec3 pastelPink   = vec3(0.95, 0.6, 0.7);
-
-        // Blend based on base color channels
-        vec3 col = 
-              base.x * pastelPink  +
-              base.y * pastelOrange +
-              base.z * pastelBlue;
-
-        col = mix(col, pastelPink, 0.15);
-
-        // Reduce white dominance
-        col = mix(vec3(1.0), col, 0.8);
-
-        // Add floating clouds
-        float clouds = 0.0;
-        vec3 cloudColor = vec3(1.0, 1.0, 1.0); // Default white
+        // Keep consistent day sky color
+        vec3 daySky = vec3(0.5, 0.8, 1.0); // Clear blue day sky
         
-        // Cloud 1 - moves left to right, wraps around (ORANGE)
+        // Create gradient from top to bottom
+        float gradient = 1.0 - uv.y; // Lighter at top, darker at bottom
+        
+        // Apply vertical gradient to day sky
+        vec3 skyColor = mix(daySky * 0.7, daySky, gradient);
+        
+        // Add subtle atmospheric variation
+        vec3 base = 0.5 + 0.1 * cos(iTime * 0.2 + uv.xyx + vec3(0.0, 2.0, 4.0));
+        vec3 col = skyColor + base * 0.1;
+
+        // Add floating clouds with solid pastel colors
+        
+        // Cloud 1 - moves left to right, wraps around (PASTEL PINK)
         vec2 cloudPos1 = uv;
-        cloudPos1.x -= iTime * 0.1; // Speed of movement
-        cloudPos1.x = mod(cloudPos1.x + 0.5, 1.5) - 0.5; // Wrap around with offset
-        cloudPos1.y -= 0.7; // Vertical position
-        cloudPos1 *= 8.0; // Scale
+        cloudPos1.x -= iTime * 0.1;
+        cloudPos1.x = mod(cloudPos1.x + 0.5, 1.5) - 0.5;
+        cloudPos1.y -= 0.7;
+        cloudPos1 *= 4.0; // Made bigger (was 8.0)
         float cloud1 = cloudShape(cloudPos1);
-        if (cloud1 > 0.1) {
-          col = mix(col, vec3(1.0, 0.6, 0.3), cloud1); // Bright orange
+        if (cloud1 > 0.05) {
+          vec3 pastelPink = vec3(0.95, 0.8, 0.85); // Soft pastel pink
+          col = mix(col, pastelPink, cloud1 * 0.9); // More solid
         }
         
-        // Cloud 2 - different position and speed (PINK)
+        // Cloud 2 - different position and speed (CREAM WHITE)
         vec2 cloudPos2 = uv;
         cloudPos2.x -= iTime * 0.07;
         cloudPos2.x = mod(cloudPos2.x + 0.3, 1.8) - 0.4;
         cloudPos2.y -= 0.4;
-        cloudPos2 *= 6.0;
+        cloudPos2 *= 3.0; // Made bigger (was 6.0)
         float cloud2 = cloudShape(cloudPos2);
-        if (cloud2 > 0.1) {
-          col = mix(col, vec3(1.0, 0.4, 0.7), cloud2); // Bright pink
+        if (cloud2 > 0.05) {
+          vec3 creamWhite = vec3(0.98, 0.95, 0.92); // Warm cream white
+          col = mix(col, creamWhite, cloud2 * 0.85);
         }
         
-        // Cloud 3 - smaller, faster (ORANGE)
+        // Cloud 3 - smaller, faster (PASTEL ORANGE)
         vec2 cloudPos3 = uv;
         cloudPos3.x -= iTime * 0.15;
         cloudPos3.x = mod(cloudPos3.x + 0.7, 1.2) - 0.3;
         cloudPos3.y -= 0.8;
-        cloudPos3 *= 10.0;
+        cloudPos3 *= 5.0; // Made bigger (was 10.0)
         float cloud3 = cloudShape(cloudPos3);
-        if (cloud3 > 0.1) {
-          col = mix(col, vec3(1.0, 0.7, 0.2), cloud3); // Lighter orange
+        if (cloud3 > 0.05) {
+          vec3 pastelOrange = vec3(0.95, 0.85, 0.75); // Soft peachy orange
+          col = mix(col, pastelOrange, cloud3 * 0.8);
         }
         
-        // Cloud 4 - mid-level (PINK)
+        // Cloud 4 - mid-level (SOFT WHITE)
         vec2 cloudPos4 = uv;
         cloudPos4.x -= iTime * 0.05;
         cloudPos4.x = mod(cloudPos4.x + 0.1, 2.0) - 0.6;
         cloudPos4.y -= 0.3;
-        cloudPos4 *= 7.0;
+        cloudPos4 *= 3.5; // Made bigger (was 7.0)
         float cloud4 = cloudShape(cloudPos4);
-        if (cloud4 > 0.1) {
-          col = mix(col, vec3(0.9, 0.3, 0.6), cloud4); // Deep pink
+        if (cloud4 > 0.05) {
+          vec3 softWhite = vec3(0.96, 0.94, 0.96); // Pure soft white
+          col = mix(col, softWhite, cloud4 * 0.9);
+        }
+        
+        // Cloud 5 - additional small cloud (PASTEL LAVENDER)
+        vec2 cloudPos5 = uv;
+        cloudPos5.x -= iTime * 0.12;
+        cloudPos5.x = mod(cloudPos5.x + 0.8, 1.3) - 0.2;
+        cloudPos5.y -= 0.6;
+        cloudPos5 *= 4.5; // Made bigger (was 9.0)
+        float cloud5 = cloudShape(cloudPos5);
+        if (cloud5 > 0.05) {
+          vec3 pastelLavender = vec3(0.92, 0.85, 0.95); // Soft lavender
+          col = mix(col, pastelLavender, cloud5 * 0.7);
         }
 
         gl_FragColor = vec4(col, 1.0);
