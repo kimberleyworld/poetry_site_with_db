@@ -4,12 +4,12 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { CalendarIcon, FileText, Image, Music } from 'lucide-react';
+import { CalendarIcon, FileText, Image as ImageIcon, Music } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface AddPoemFormProps {
@@ -170,48 +170,45 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
 
   return (
     <Card className="w-full max-w-2xl mx-auto backdrop-blur-lg bg-white/30 border border-white/20 shadow-xl">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-gray-800">
-          <FileText className="h-5 w-5" />
-          Add New Poem
-        </CardTitle>
-      </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="title" className="mb-2 block">Title *</Label>
+              <Label htmlFor="title" className="mb-2 block font-[family-name:var(--font-ibm-plex-mono)] font-normal">Title *</Label>
               <Input
                 id="title"
                 value={formData.title}
                 onChange={(e) => handleInputChange('title', e.target.value)}
                 required
+                className="font-[family-name:var(--font-ibm-plex-mono)] font-normal"
               />
             </div>
             <div>
-              <Label htmlFor="author" className="mb-2 block">Author *</Label>
+              <Label htmlFor="author" className="mb-2 block font-[family-name:var(--font-ibm-plex-mono)] font-normal">Author *</Label>
               <Input
                 id="author"
                 value={formData.author}
                 onChange={(e) => handleInputChange('author', e.target.value)}
                 required
+                className="font-[family-name:var(--font-ibm-plex-mono)] font-normal"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="reader" className="mb-2 block">Reader *</Label>
+              <Label htmlFor="reader" className="mb-2 block font-[family-name:var(--font-ibm-plex-mono)] font-normal">Reader *</Label>
               <Input
                 id="reader"
                 value={formData.reader}
                 onChange={(e) => handleInputChange('reader', e.target.value)}
                 required
+                className="font-[family-name:var(--font-ibm-plex-mono)] font-normal"
               />
             </div>
             <div>
-              <Label className="mb-2 block">Event Date *</Label>
+              <Label className="mb-2 block font-[family-name:var(--font-ibm-plex-mono)] font-normal">Event Date *</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
@@ -234,19 +231,20 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
           </div>
 
           <div>
-            <Label htmlFor="description" className="mb-2 block">Description *</Label>
+            <Label htmlFor="description" className="mb-2 block font-[family-name:var(--font-ibm-plex-mono)] font-normal">Description *</Label>
             <Textarea
               id="description"
               value={formData.description}
               onChange={(e) => handleInputChange('description', e.target.value)}
               rows={2}
               required
+              className="font-[family-name:var(--font-ibm-plex-mono)] font-normal"
             />
           </div>
 
           {/* Content Type Selection */}
           <div>
-            <Label className="mb-2 block">Content Type *</Label>
+            <Label className="mb-2 block font-[family-name:var(--font-ibm-plex-mono)] font-normal">Content Type *</Label>
             <RadioGroup
               value={formData.contentType}
               onValueChange={handleContentTypeChange}
@@ -254,21 +252,21 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
             >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="text" id="text" />
-                <Label htmlFor="text" className="flex items-center gap-2">
+                <Label htmlFor="text" className="flex items-center gap-2 font-[family-name:var(--font-ibm-plex-mono)] font-normal">
                   <FileText className="h-4 w-4" />
                   Text
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="image" id="image" />
-                <Label htmlFor="image" className="flex items-center gap-2">
-                  <Image className="h-4 w-4" />
+                <Label htmlFor="image" className="flex items-center gap-2 font-[family-name:var(--font-ibm-plex-mono)] font-normal">
+                  <ImageIcon className="h-4 w-4" />
                   Image
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="audio" id="audio" />
-                <Label htmlFor="audio" className="flex items-center gap-2">
+                <Label htmlFor="audio" className="flex items-center gap-2 font-[family-name:var(--font-ibm-plex-mono)] font-normal">
                   <Music className="h-4 w-4" />
                   Audio
                 </Label>
@@ -279,7 +277,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
           {/* Content Input */}
           {formData.contentType === 'text' && (
             <div>
-              <Label htmlFor="content" className="mb-2 block">Poem Content *</Label>
+              <Label htmlFor="content" className="mb-2 block font-[family-name:var(--font-ibm-plex-mono)] font-normal">Poem Content *</Label>
               <Textarea
                 id="content"
                 value={formData.content}
@@ -287,13 +285,14 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
                 required
                 rows={6}
                 placeholder="Enter your poem here..."
+                className="font-[family-name:var(--font-ibm-plex-mono)] font-normal"
               />
             </div>
           )}
 
           {(formData.contentType === 'image' || formData.contentType === 'audio') && (
             <div>
-              <Label htmlFor="file" className="mb-2 block">
+              <Label htmlFor="file" className="mb-2 block font-[family-name:var(--font-ibm-plex-mono)] font-normal">
                 {formData.contentType === 'image' ? 'Upload Image (PNG/JPG, max 2MB) *' : 'Upload Audio (MP3, max 5MB) *'}
               </Label>
               <div className="mt-2">
@@ -320,7 +319,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
           <Button 
             type="submit" 
             disabled={isSubmitting || (formData.contentType !== 'text' && !selectedFile)}
-            className="w-full"
+            className="w-full font-[family-name:var(--font-ibm-plex-mono)] font-normal"
           >
             {isSubmitting ? 'Adding...' : 'Add Poem'}
           </Button>

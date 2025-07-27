@@ -14,12 +14,12 @@ function Navbar() {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuLink href="/" className="text-gray-800 hover:text-gray-600 font-medium">
+                  <NavigationMenuLink href="/" className="text-neutral-700 hover:text-neutral-800 font-medium">
                     Home
                   </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavigationMenuLink href="/archive" className="text-gray-800 hover:text-gray-600 font-medium">
+                  <NavigationMenuLink href="/archive" className="text-neutral-700 hover:text-neutral-800 font-medium">
                     Archive
                   </NavigationMenuLink>
                 </NavigationMenuItem>

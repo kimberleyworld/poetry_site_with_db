@@ -22,7 +22,7 @@ export default function PoemCard({ poem }: PoemCardProps) {
           }}>
             {poem.description}
           </p>
-          <p className="text-xs text-gray-500 mt-2">
+          <p className="text-xs text-neutral-700 mt-2">
             Click to read...
           </p>
         </CardContent>

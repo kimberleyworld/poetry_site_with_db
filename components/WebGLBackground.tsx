@@ -63,15 +63,11 @@ const WebGLBackground: React.FC = () => {
         vec2 fragCoord = gl_FragCoord.xy;
         vec2 uv = fragCoord / iResolution.xy;
 
-        // Realistic sky gradient like sunset/sunrise
-        vec3 topColor = vec3(0.4, 0.6, 0.9);     // Sky blue at top
-        vec3 horizonColor = vec3(0.95, 0.6, 0.8); // Pink at horizon
+        // Simple orange gradient
+        vec3 topColor = vec3(1.0, 0.8, 0.5);    // Lighter orange
+        vec3 bottomColor = vec3(1.0, 0.6, 0.3);  // Deeper orange
         
-        // Create a more realistic gradient curve
-        // Use a power function to make the transition more concentrated near the horizon
-        float gradientFactor = pow(1.0 - uv.y, 1.5);
-        
-        vec3 skyColor = mix(topColor, horizonColor, gradientFactor);
+        vec3 skyColor = mix(bottomColor, topColor, uv.y);
         
         vec3 col = skyColor;
 
