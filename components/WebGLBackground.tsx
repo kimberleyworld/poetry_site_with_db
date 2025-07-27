@@ -63,15 +63,11 @@ const WebGLBackground: React.FC = () => {
         vec2 fragCoord = gl_FragCoord.xy;
         vec2 uv = fragCoord / iResolution.xy;
 
-        // Simple orange gradient
-        vec3 topColor = vec3(1.0, 0.8, 0.5);    // Lighter orange
-        vec3 bottomColor = vec3(1.0, 0.6, 0.3);  // Deeper orange
-        
-        vec3 skyColor = mix(bottomColor, topColor, uv.y);
-        
+        // Simple white background
+        vec3 skyColor = vec3(1.0, 1.0, 1.0);
         vec3 col = skyColor;
 
-        // Add 4 simple white clouds
+        // Add 4 simple pink clouds
         
         // Cloud 1 - slow moving
         vec2 cloudPos1 = uv;
@@ -80,7 +76,7 @@ const WebGLBackground: React.FC = () => {
         cloudPos1.y -= 0.75;
         cloudPos1 *= 2.5;
         float cloud1 = handDrawnCloud(cloudPos1);
-        col = mix(col, vec3(1.0, 1.0, 1.0), cloud1);
+        col = mix(col, vec3(1.0, 0.7, 0.8), cloud1);
         
         // Cloud 2 - medium speed
         vec2 cloudPos2 = uv;
@@ -89,7 +85,7 @@ const WebGLBackground: React.FC = () => {
         cloudPos2.y -= 0.45;
         cloudPos2 *= 2.0;
         float cloud2 = handDrawnCloud(cloudPos2);
-        col = mix(col, vec3(1.0, 1.0, 1.0), cloud2);
+        col = mix(col, vec3(1.0, 0.7, 0.8), cloud2);
         
         // Cloud 3 - faster
         vec2 cloudPos3 = uv;
@@ -98,7 +94,7 @@ const WebGLBackground: React.FC = () => {
         cloudPos3.y -= 0.65;
         cloudPos3 *= 3.0;
         float cloud3 = handDrawnCloud(cloudPos3);
-        col = mix(col, vec3(1.0, 1.0, 1.0), cloud3);
+        col = mix(col, vec3(1.0, 0.7, 0.8), cloud3);
         
         // Cloud 4 - slowest
         vec2 cloudPos4 = uv;
@@ -107,7 +103,7 @@ const WebGLBackground: React.FC = () => {
         cloudPos4.y -= 0.35;
         cloudPos4 *= 1.8;
         float cloud4 = handDrawnCloud(cloudPos4);
-        col = mix(col, vec3(1.0, 1.0, 1.0), cloud4);
+        col = mix(col, vec3(1.0, 0.7, 0.8), cloud4);
 
         gl_FragColor = vec4(col, 1.0);
       }
