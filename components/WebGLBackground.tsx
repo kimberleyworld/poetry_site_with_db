@@ -30,98 +30,88 @@ const WebGLBackground: React.FC = () => {
       uniform vec2 iResolution;
       uniform float iTime;
 
-      // Cloud shape function
-      float cloudShape(vec2 p) {
+      // Simple noise function for hand-drawn effect
+      float noise(vec2 p) {
+        return sin(p.x * 10.0) * sin(p.y * 10.0) * 0.1;
+      }
+
+      // Hand-drawn cloud shape function
+      float handDrawnCloud(vec2 p) {
         float cloud = 0.0;
         
-        // Main cloud body (multiple overlapping circles)
-        cloud += smoothstep(0.3, 0.0, length(p - vec2(0.0, 0.0)));
-        cloud += smoothstep(0.25, 0.0, length(p - vec2(0.3, 0.1)));
-        cloud += smoothstep(0.2, 0.0, length(p - vec2(-0.3, 0.05)));
-        cloud += smoothstep(0.18, 0.0, length(p - vec2(0.15, 0.25)));
-        cloud += smoothstep(0.22, 0.0, length(p - vec2(-0.15, 0.2)));
+        // Add slight irregularity for hand-drawn look
+        vec2 wobble = vec2(
+          noise(p * 5.0 + iTime * 0.1) * 0.05,
+          noise(p * 3.0 + iTime * 0.1) * 0.03
+        );
+        p += wobble;
         
-        return min(cloud, 1.0);
+        // Main cloud body - more irregular circles
+        cloud += smoothstep(0.35, 0.15, length(p - vec2(0.0, 0.0)));
+        cloud += smoothstep(0.28, 0.12, length(p - vec2(0.25, 0.08)));
+        cloud += smoothstep(0.32, 0.14, length(p - vec2(-0.28, 0.03)));
+        cloud += smoothstep(0.25, 0.10, length(p - vec2(0.12, 0.22)));
+        cloud += smoothstep(0.30, 0.13, length(p - vec2(-0.18, 0.18)));
+        cloud += smoothstep(0.22, 0.08, length(p - vec2(0.35, -0.05)));
+        cloud += smoothstep(0.26, 0.11, length(p - vec2(-0.35, -0.02)));
+        
+        // Sharp cutoff for solid appearance
+        return step(0.3, cloud);
       }
 
       void main() {
         vec2 fragCoord = gl_FragCoord.xy;
         vec2 uv = fragCoord / iResolution.xy;
 
-        // Keep consistent day sky color
-        vec3 daySky = vec3(0.5, 0.8, 1.0); // Clear blue day sky
+        // Realistic sky gradient like sunset/sunrise
+        vec3 topColor = vec3(0.4, 0.6, 0.9);     // Sky blue at top
+        vec3 horizonColor = vec3(0.95, 0.6, 0.8); // Pink at horizon
         
-        // Create gradient from top to bottom
-        float gradient = 1.0 - uv.y; // Lighter at top, darker at bottom
+        // Create a more realistic gradient curve
+        // Use a power function to make the transition more concentrated near the horizon
+        float gradientFactor = pow(1.0 - uv.y, 1.5);
         
-        // Apply vertical gradient to day sky
-        vec3 skyColor = mix(daySky * 0.7, daySky, gradient);
+        vec3 skyColor = mix(topColor, horizonColor, gradientFactor);
         
-        // Add subtle atmospheric variation
-        vec3 base = 0.5 + 0.1 * cos(iTime * 0.2 + uv.xyx + vec3(0.0, 2.0, 4.0));
-        vec3 col = skyColor + base * 0.1;
+        vec3 col = skyColor;
 
-        // Add floating clouds with solid pastel colors
+        // Add 4 simple white clouds
         
-        // Cloud 1 - moves left to right, wraps around (PASTEL PINK)
+        // Cloud 1 - slow moving
         vec2 cloudPos1 = uv;
-        cloudPos1.x -= iTime * 0.1;
-        cloudPos1.x = mod(cloudPos1.x + 0.5, 1.5) - 0.5;
-        cloudPos1.y -= 0.7;
-        cloudPos1 *= 4.0; // Made bigger (was 8.0)
-        float cloud1 = cloudShape(cloudPos1);
-        if (cloud1 > 0.05) {
-          vec3 pastelPink = vec3(0.95, 0.8, 0.85); // Soft pastel pink
-          col = mix(col, pastelPink, cloud1 * 0.9); // More solid
-        }
+        cloudPos1.x -= iTime * 0.08;
+        cloudPos1.x = mod(cloudPos1.x + 0.5, 2.0) - 0.5;
+        cloudPos1.y -= 0.75;
+        cloudPos1 *= 2.5;
+        float cloud1 = handDrawnCloud(cloudPos1);
+        col = mix(col, vec3(1.0, 1.0, 1.0), cloud1);
         
-        // Cloud 2 - different position and speed (CREAM WHITE)
+        // Cloud 2 - medium speed
         vec2 cloudPos2 = uv;
-        cloudPos2.x -= iTime * 0.07;
-        cloudPos2.x = mod(cloudPos2.x + 0.3, 1.8) - 0.4;
-        cloudPos2.y -= 0.4;
-        cloudPos2 *= 3.0; // Made bigger (was 6.0)
-        float cloud2 = cloudShape(cloudPos2);
-        if (cloud2 > 0.05) {
-          vec3 creamWhite = vec3(0.98, 0.95, 0.92); // Warm cream white
-          col = mix(col, creamWhite, cloud2 * 0.85);
-        }
+        cloudPos2.x -= iTime * 0.06;
+        cloudPos2.x = mod(cloudPos2.x + 0.8, 2.2) - 0.6;
+        cloudPos2.y -= 0.45;
+        cloudPos2 *= 2.0;
+        float cloud2 = handDrawnCloud(cloudPos2);
+        col = mix(col, vec3(1.0, 1.0, 1.0), cloud2);
         
-        // Cloud 3 - smaller, faster (PASTEL ORANGE)
+        // Cloud 3 - faster
         vec2 cloudPos3 = uv;
-        cloudPos3.x -= iTime * 0.15;
-        cloudPos3.x = mod(cloudPos3.x + 0.7, 1.2) - 0.3;
-        cloudPos3.y -= 0.8;
-        cloudPos3 *= 5.0; // Made bigger (was 10.0)
-        float cloud3 = cloudShape(cloudPos3);
-        if (cloud3 > 0.05) {
-          vec3 pastelOrange = vec3(0.95, 0.85, 0.75); // Soft peachy orange
-          col = mix(col, pastelOrange, cloud3 * 0.8);
-        }
+        cloudPos3.x -= iTime * 0.12;
+        cloudPos3.x = mod(cloudPos3.x + 0.2, 1.8) - 0.4;
+        cloudPos3.y -= 0.65;
+        cloudPos3 *= 3.0;
+        float cloud3 = handDrawnCloud(cloudPos3);
+        col = mix(col, vec3(1.0, 1.0, 1.0), cloud3);
         
-        // Cloud 4 - mid-level (SOFT WHITE)
+        // Cloud 4 - slowest
         vec2 cloudPos4 = uv;
-        cloudPos4.x -= iTime * 0.05;
-        cloudPos4.x = mod(cloudPos4.x + 0.1, 2.0) - 0.6;
-        cloudPos4.y -= 0.3;
-        cloudPos4 *= 3.5; // Made bigger (was 7.0)
-        float cloud4 = cloudShape(cloudPos4);
-        if (cloud4 > 0.05) {
-          vec3 softWhite = vec3(0.96, 0.94, 0.96); // Pure soft white
-          col = mix(col, softWhite, cloud4 * 0.9);
-        }
-        
-        // Cloud 5 - additional small cloud (PASTEL LAVENDER)
-        vec2 cloudPos5 = uv;
-        cloudPos5.x -= iTime * 0.12;
-        cloudPos5.x = mod(cloudPos5.x + 0.8, 1.3) - 0.2;
-        cloudPos5.y -= 0.6;
-        cloudPos5 *= 4.5; // Made bigger (was 9.0)
-        float cloud5 = cloudShape(cloudPos5);
-        if (cloud5 > 0.05) {
-          vec3 pastelLavender = vec3(0.92, 0.85, 0.95); // Soft lavender
-          col = mix(col, pastelLavender, cloud5 * 0.7);
-        }
+        cloudPos4.x -= iTime * 0.04;
+        cloudPos4.x = mod(cloudPos4.x + 0.1, 2.5) - 0.8;
+        cloudPos4.y -= 0.35;
+        cloudPos4 *= 1.8;
+        float cloud4 = handDrawnCloud(cloudPos4);
+        col = mix(col, vec3(1.0, 1.0, 1.0), cloud4);
 
         gl_FragColor = vec4(col, 1.0);
       }
