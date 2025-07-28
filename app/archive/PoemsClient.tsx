@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import MobileFilterMenu from '@/components/MobileFilterMenu';
 import { Poem } from '@prisma/client';
 import PoemCard from '@/components/PoemCard';
 
@@ -33,7 +34,10 @@ export default function PoemsClient({ initialPoems }: PoemsClientProps) {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col md:flex-row gap-4">
+      {/* Mobile: Filters in burger menu */}
+      <MobileFilterMenu filters={filters} dates={dates} onFilterChange={handleFilterChange} />
+      {/* Desktop: Filters inline */}
+      <div className="hidden md:flex flex-row gap-4">
         <Input
           placeholder="Filter by Title"
           value={filters.title}
