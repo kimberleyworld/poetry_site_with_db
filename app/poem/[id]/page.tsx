@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft } from 'lucide-react';
+import WebGLBackground from '@/components/WebGLBackground';
 
 interface PoemPageProps {
   params: Promise<{
@@ -36,26 +37,27 @@ export default async function PoemPage({ params }: PoemPageProps) {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="mb-6">
+    <div className="max-w-4xl mx-auto p-6 font-[family-name:var(--font-ibm-plex-mono)]">
+            <WebGLBackground />
+      <div className="mb-6 ">
         <Link href="/archive">
-          <Button variant="outline" className="flex items-center gap-2">
+          <Button variant="outline" className="flex items-center gap-2 border-neutral-700 rounded-none backdrop-blur-lg bg-white/30">
             <ArrowLeft className="h-4 w-4" />
             Back to Archive
           </Button>
         </Link>
       </div>
 
-      <Card className="shadow-lg">
+      <Card className="border-neutral-700 rounded-none backdrop-blur-lg bg-white/30">
         <CardHeader>
           <CardTitle className="text-3xl font-bold">{poem.title}</CardTitle>
           <p className="text-lg text-gray-600">By {poem.author}</p>
           <p className="text-sm text-gray-500">
-            Published on {new Date(poem.createdAt).toLocaleDateString('en-US', {
+            Shared by {poem.reader} on {new Date(poem.createdAt).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
               day: 'numeric'
-            })}
+            })} 
           </p>
         </CardHeader>
         <CardContent>

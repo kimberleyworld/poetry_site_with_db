@@ -277,14 +277,14 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
           {/* Content Input */}
           {formData.contentType === 'text' && (
             <div>
-              <Label htmlFor="content" className="mb-2 block font-[family-name:var(--font-ibm-plex-mono)] font-normal">Poem Content *</Label>
+              <Label htmlFor="content" className="mb-2 block font-[family-name:var(--font-ibm-plex-mono)] font-normal">Words *</Label>
               <Textarea
                 id="content"
                 value={formData.content}
                 onChange={(e) => handleInputChange('content', e.target.value)}
                 required
                 rows={6}
-                placeholder="Enter your poem here..."
+                placeholder="Enter your word here..."
                 className="font-[family-name:var(--font-ibm-plex-mono)] font-normal"
               />
             </div>
@@ -321,7 +321,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
             disabled={isSubmitting || (formData.contentType !== 'text' && !selectedFile)}
             className="w-full font-[family-name:var(--font-ibm-plex-mono)] font-normal"
           >
-            {isSubmitting ? 'Adding...' : 'Add Poem'}
+            {isSubmitting ? 'Adding...' : 'Add what you shared'}
           </Button>
         </form>
       </CardContent>

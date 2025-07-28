@@ -5,10 +5,10 @@ import SpinningFlower from "./SpinningFlower";
 function HeroSection(){
     return (
         <div className="hero-section">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-8 sm:pb-16">
+            <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-12 py-8 sm:pb-16">
                 <div className="text-center">
-                    <h1 className="text-9xl sm:text-[12rem] lg:text-[12rem] mb-8 text-neutral-800 font-[family-name:var(--font-unifraktur-maguntia)] font-normal leading-none">
-                        soft spot
+                    <h1 className="text-9xl sm:text-[12rem] lg:text-[12rem] mb-8 text-neutral-800 font-[family-name:var(--font-ibm-plex-mono)] font-bold">
+                        SOFT SPOT
                     </h1>
                     
                     <p className="text-lg sm:text-xl lg:text-xxl text-neutral-700 max-w-2xl mx-auto font-[family-name:var(--font-ibm-plex-mono)]">

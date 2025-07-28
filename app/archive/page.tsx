@@ -14,6 +14,9 @@ export default async function PoemsPage() {
       <WebGLBackground />
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-8 sm:pb-16">
+        <h2 className="text-left text-2xl sm:text-3xl lg:text-4xl mb-6 text-neutral-800 font-[family-name:var(--font-ibm-plex-mono)] font-bold">
+            SOFT SPOT ARCHIVE
+          </h2>
         <PoemsClient initialPoems={poems} />
       </div>
     </div>
