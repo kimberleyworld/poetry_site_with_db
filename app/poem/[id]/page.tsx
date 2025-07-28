@@ -53,7 +53,7 @@ export default async function PoemPage({ params }: PoemPageProps) {
           <CardTitle className="text-3xl font-bold">{poem.title}</CardTitle>
           <p className="text-lg text-gray-600">By {poem.author}</p>
           <p className="text-sm text-gray-500">
-            Shared by {poem.reader} on {new Date(poem.createdAt).toLocaleDateString('en-US', {
+            Shared by {poem.reader} on {new Date(poem.eventDate).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
               day: 'numeric'
