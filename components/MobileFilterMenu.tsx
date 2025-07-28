@@ -5,9 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
 
 interface MobileFilterMenuProps {
-  filters: { title: string; author: string; date: string };
+  filters: { title: string; author: string; reader: string; date: string };
   dates: string[];
-  onFilterChange: (key: 'title' | 'author' | 'date', value: string) => void;
+  onFilterChange: (key: 'title' | 'author' | 'reader' | 'date', value: string) => void;
 }
 
 export default function MobileFilterMenu({ filters, dates, onFilterChange }: MobileFilterMenuProps) {
@@ -35,6 +35,11 @@ export default function MobileFilterMenu({ filters, dates, onFilterChange }: Mob
             placeholder="Filter by Author"
             value={filters.author}
             onChange={e => onFilterChange('author', e.target.value)}
+          />
+          <Input
+            placeholder="Filter by Sharer"
+            value={filters.reader}
+            onChange={e => onFilterChange('reader', e.target.value)}
           />
           <Select value={filters.date} onValueChange={value => onFilterChange('date', value)}>
             <SelectTrigger className="border-neutral-700 rounded-none h-9 px-3 py-1 bg-transparent shadow-xs">

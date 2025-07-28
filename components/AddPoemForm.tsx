@@ -183,7 +183,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
         {showThankYou ? (
           <div className="text-center py-12">
             <h3 className="text-2xl font-bold mb-4 text-neutral-800">Thank you for submitting your piece to the archive!</h3>
-            <p className="text-neutral-700 max-w-md mx-auto">You'll see it appear in the archive in a few days after it has been approved.</p>
+            <p className="text-neutral-700 max-w-md mx-auto">You&apos;ll see it appear in the archive in a few days after it has been approved.</p>
           </div>
         ) : (
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -213,7 +213,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="reader" className="mb-2 block font-[family-name:var(--font-ibm-plex-mono)] font-normal">Reader *</Label>
+              <Label htmlFor="reader" className="mb-2 block font-[family-name:var(--font-ibm-plex-mono)] font-normal">Sharer *</Label>
               <Input
                 id="reader"
                 value={formData.reader}

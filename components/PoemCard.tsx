@@ -15,6 +15,7 @@ export default function PoemCard({ poem }: PoemCardProps) {
         </CardHeader>
         <CardContent>
           <p className="italic text-sm mb-2">By {poem.author}</p>
+          <p className="italic text-sm mb-2">Shared by {poem.reader}</p>
           <p className="overflow-hidden text-ellipsis font-[family-name:var(--font-ibm-plex-mono)] " style={{ 
             display: '-webkit-box', 
             WebkitLineClamp: 3, 

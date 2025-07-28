@@ -13,10 +13,10 @@ interface PoemsClientProps {
 
 export default function PoemsClient({ initialPoems }: PoemsClientProps) {
   const [filteredPoems, setFilteredPoems] = useState(initialPoems);
-  const [filters, setFilters] = useState({ title: '', author: '', date: '' });
+  const [filters, setFilters] = useState({ title: '', author: '', reader: '', date: '' });
 
-  // Extract unique dates in a readable format
-  const dates = Array.from(new Set(initialPoems.map(p => new Date(p.createdAt).toDateString())));
+  // Extract unique event dates in a readable format
+  const dates = Array.from(new Set(initialPoems.map(p => new Date(p.eventDate).toDateString())));
 
   const handleFilterChange = (key: keyof typeof filters, value: string) => {
     const newFilters = { ...filters, [key]: value };
@@ -25,8 +25,9 @@ export default function PoemsClient({ initialPoems }: PoemsClientProps) {
     const filtered = initialPoems.filter(poem => {
       const matchesTitle = !newFilters.title || poem.title.toLowerCase().includes(newFilters.title.toLowerCase());
       const matchesAuthor = !newFilters.author || poem.author.toLowerCase().includes(newFilters.author.toLowerCase());
-      const matchesDate = !newFilters.date || new Date(poem.createdAt).toDateString() === newFilters.date;
-      return matchesTitle && matchesAuthor && matchesDate;
+      const matchesReader = !newFilters.reader || poem.reader.toLowerCase().includes(newFilters.reader.toLowerCase());
+      const matchesDate = !newFilters.date || new Date(poem.eventDate).toDateString() === newFilters.date;
+      return matchesTitle && matchesAuthor && matchesReader && matchesDate;
     });
 
     setFilteredPoems(filtered);
@@ -48,6 +49,12 @@ export default function PoemsClient({ initialPoems }: PoemsClientProps) {
           placeholder="Filter by Author"
           value={filters.author}
           onChange={e => handleFilterChange('author', e.target.value)}
+          className="flex-1"
+        />
+        <Input
+          placeholder="Filter by Reader"
+          value={filters.reader}
+          onChange={e => handleFilterChange('reader', e.target.value)}
           className="flex-1"
         />
         <div className="w-[200px]">
