@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -30,6 +30,14 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [fileError, setFileError] = useState('');
+  const [showThankYou, setShowThankYou] = useState(false);
+
+  useEffect(() => {
+    if (showThankYou) {
+      const timer = setTimeout(() => setShowThankYou(false), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [showThankYou]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -145,6 +153,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
         });
         setEventDate(undefined);
         setSelectedFile(null);
+        setShowThankYou(true);
         onPoemAdded();
       } else {
         const errorText = await response.text();
@@ -171,6 +180,12 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
   return (
     <Card className="w-full max-w-2xl mx-auto backdrop-blur-lg bg-white/30 border border-white/20 shadow-xl">
       <CardContent>
+        {showThankYou ? (
+          <div className="text-center py-12">
+            <h3 className="text-2xl font-bold mb-4 text-neutral-800">Thank you for submitting your piece to the archive!</h3>
+            <p className="text-neutral-700 max-w-md mx-auto">You&apos;ll see it appear in the archive in a few days after it has been approved.</p>
+          </div>
+        ) : (
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -198,7 +213,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="reader" className="mb-2 block font-[family-name:var(--font-ibm-plex-mono)] font-normal">Reader *</Label>
+              <Label htmlFor="reader" className="mb-2 block font-[family-name:var(--font-ibm-plex-mono)] font-normal">Sharer *</Label>
               <Input
                 id="reader"
                 value={formData.reader}
@@ -213,7 +228,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className="w-full justify-start text-left font-normal"
+                    className="w-full justify-start text-left font-normal border-neutral-700 rounded-none h-9 px-3 py-1 bg-transparent shadow-xs focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-[color,box-shadow] outline-none"
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {eventDate ? format(eventDate, 'PPP') : 'Pick a date'}
@@ -277,14 +292,14 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
           {/* Content Input */}
           {formData.contentType === 'text' && (
             <div>
-              <Label htmlFor="content" className="mb-2 block font-[family-name:var(--font-ibm-plex-mono)] font-normal">Poem Content *</Label>
+              <Label htmlFor="content" className="mb-2 block font-[family-name:var(--font-ibm-plex-mono)] font-normal">Words *</Label>
               <Textarea
                 id="content"
                 value={formData.content}
                 onChange={(e) => handleInputChange('content', e.target.value)}
                 required
                 rows={6}
-                placeholder="Enter your poem here..."
+                placeholder="Enter your word here..."
                 className="font-[family-name:var(--font-ibm-plex-mono)] font-normal"
               />
             </div>
@@ -321,9 +336,10 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
             disabled={isSubmitting || (formData.contentType !== 'text' && !selectedFile)}
             className="w-full font-[family-name:var(--font-ibm-plex-mono)] font-normal"
           >
-            {isSubmitting ? 'Adding...' : 'Add Poem'}
+            {isSubmitting ? 'Adding...' : 'Submit'}
           </Button>
         </form>
+        )}
       </CardContent>
     </Card>
   );

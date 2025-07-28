@@ -9,3 +9,6 @@ Core features include:
 - Full API integration using Next.js App Router
 - Fully deployed on Vercel for public access
 - Optional admin tools for managing content
+
+# Prism DB 
+To launch the web-based GUI use command npx prisma studio

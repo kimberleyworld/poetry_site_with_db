@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import MobileFilterMenu from '@/components/MobileFilterMenu';
 import { Poem } from '@prisma/client';
 import PoemCard from '@/components/PoemCard';
 
@@ -12,10 +13,10 @@ interface PoemsClientProps {
 
 export default function PoemsClient({ initialPoems }: PoemsClientProps) {
   const [filteredPoems, setFilteredPoems] = useState(initialPoems);
-  const [filters, setFilters] = useState({ title: '', author: '', date: '' });
+  const [filters, setFilters] = useState({ title: '', author: '', reader: '', date: '' });
 
-  // Extract unique dates in a readable format
-  const dates = Array.from(new Set(initialPoems.map(p => new Date(p.createdAt).toDateString())));
+  // Extract unique event dates in a readable format
+  const dates = Array.from(new Set(initialPoems.map(p => new Date(p.eventDate).toDateString())));
 
   const handleFilterChange = (key: keyof typeof filters, value: string) => {
     const newFilters = { ...filters, [key]: value };
@@ -24,8 +25,9 @@ export default function PoemsClient({ initialPoems }: PoemsClientProps) {
     const filtered = initialPoems.filter(poem => {
       const matchesTitle = !newFilters.title || poem.title.toLowerCase().includes(newFilters.title.toLowerCase());
       const matchesAuthor = !newFilters.author || poem.author.toLowerCase().includes(newFilters.author.toLowerCase());
-      const matchesDate = !newFilters.date || new Date(poem.createdAt).toDateString() === newFilters.date;
-      return matchesTitle && matchesAuthor && matchesDate;
+      const matchesReader = !newFilters.reader || poem.reader.toLowerCase().includes(newFilters.reader.toLowerCase());
+      const matchesDate = !newFilters.date || new Date(poem.eventDate).toDateString() === newFilters.date;
+      return matchesTitle && matchesAuthor && matchesReader && matchesDate;
     });
 
     setFilteredPoems(filtered);
@@ -33,7 +35,10 @@ export default function PoemsClient({ initialPoems }: PoemsClientProps) {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col md:flex-row gap-4">
+      {/* Mobile: Filters in burger menu */}
+      <MobileFilterMenu filters={filters} dates={dates} onFilterChange={handleFilterChange} />
+      {/* Desktop: Filters inline */}
+      <div className="hidden md:flex flex-row gap-4">
         <Input
           placeholder="Filter by Title"
           value={filters.title}
@@ -46,9 +51,15 @@ export default function PoemsClient({ initialPoems }: PoemsClientProps) {
           onChange={e => handleFilterChange('author', e.target.value)}
           className="flex-1"
         />
+        <Input
+          placeholder="Filter by Reader"
+          value={filters.reader}
+          onChange={e => handleFilterChange('reader', e.target.value)}
+          className="flex-1"
+        />
         <div className="w-[200px]">
           <Select value={filters.date} onValueChange={value => handleFilterChange('date', value)}>
-            <SelectTrigger>
+            <SelectTrigger className="border-neutral-700 rounded-none h-9 px-3 py-1 bg-transparent shadow-xs focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-[color,box-shadow] outline-none">
               <SelectValue placeholder="Filter by Date" />
             </SelectTrigger>
             <SelectContent>
