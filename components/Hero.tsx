@@ -10,16 +10,14 @@ function HeroSection(){
                     <h1 className="text-9xl sm:text-[12rem] lg:text-[12rem] mb-8 text-neutral-800 font-[family-name:var(--font-ibm-plex-mono)] font-bold">
                         SOFT SPOT
                     </h1>
-                    
-                    <p className="text-lg sm:text-xl lg:text-xxl text-neutral-700 max-w-2xl mx-auto font-[family-name:var(--font-ibm-plex-mono)]">
-                            soft spot is a sharing space for any words that hold emotional resonance for you. It&apos;s a relaxed, no-pressure, no-judgment environment where you&apos;re free to express yourself or simply listen. No experience needed.
+                    <p className="text-l sm:text-l lg:text-xxl text-neutral-700 max-w-2xl mx-auto font-[family-name:var(--font-ibm-plex-mono)]">
+                        soft spot is a community event for sharing any words that hold emotional resonance for you. No experience needed. Bring anything: an email that touched you, a particularly poignant horoscope, a ramble from your notes app, a poem. You can get a feel for what people have read before in our <a href="/archive" className="font-bold no-underline text-inherit hover:text-inherit focus:text-inherit">soft archive</a>. It’s about connection, release, and being heard (and sometimes it’s about being silly).
                     </p>
                 </div>
                 <div className="mt-12">
-                <SpinningFlower />
+                    <SpinningFlower />
+                </div>
             </div>
-            </div>
-            
         </div>
     );
 }
