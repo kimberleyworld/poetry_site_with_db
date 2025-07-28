@@ -213,7 +213,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className="w-full justify-start text-left font-normal"
+                    className="w-full justify-start text-left font-normal border-neutral-700 rounded-none h-9 px-3 py-1 bg-transparent shadow-xs focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-[color,box-shadow] outline-none"
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {eventDate ? format(eventDate, 'PPP') : 'Pick a date'}

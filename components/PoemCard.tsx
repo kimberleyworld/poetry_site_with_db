@@ -9,7 +9,7 @@ interface PoemCardProps {
 export default function PoemCard({ poem }: PoemCardProps) {
   return (
     <Link href={`/poem/${poem.id}`}>
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
+      <Card className="hover:shadow-lg backdrop-blur-lg bg-white/30 transition-shadow cursor-pointer h-full border-neutral-700 rounded-none">
         <CardHeader>
           <CardTitle>{poem.title}</CardTitle>
         </CardHeader>

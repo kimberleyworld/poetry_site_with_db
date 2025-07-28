@@ -48,7 +48,7 @@ export default function PoemsClient({ initialPoems }: PoemsClientProps) {
         />
         <div className="w-[200px]">
           <Select value={filters.date} onValueChange={value => handleFilterChange('date', value)}>
-            <SelectTrigger>
+            <SelectTrigger className="border-neutral-700 rounded-none h-9 px-3 py-1 bg-transparent shadow-xs focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-[color,box-shadow] outline-none">
               <SelectValue placeholder="Filter by Date" />
             </SelectTrigger>
             <SelectContent>

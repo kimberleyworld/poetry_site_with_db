@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/db';
 import PoemsClient from './PoemsClient';
 import Navbar from '@/components/Navbar';
+import WebGLBackground from '@/components/WebGLBackground';
 
 export default async function PoemsPage() {
   const poems = await prisma.poem.findMany({
@@ -10,8 +11,11 @@ export default async function PoemsPage() {
 
   return (
     <div className="archive-page">
+      <WebGLBackground />
       <Navbar />
-      <PoemsClient initialPoems={poems} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-8 sm:pb-16">
+        <PoemsClient initialPoems={poems} />
+      </div>
     </div>
   );
 }
