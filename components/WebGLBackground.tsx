@@ -62,6 +62,8 @@ const WebGLBackground: React.FC = () => {
       void main() {
         vec2 fragCoord = gl_FragCoord.xy;
         vec2 uv = fragCoord / iResolution.xy;
+        // Normalize aspect ratio so clouds don't squash on mobile
+        uv = (uv - 0.5) * vec2(iResolution.x / iResolution.y, 1.0) + 0.5;
 
         // Simple white background
         vec3 skyColor = vec3(1.0, 1.0, 1.0);

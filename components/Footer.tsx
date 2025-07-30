@@ -18,15 +18,6 @@ function Footer() {
                     >
                        Venue ~ Bridge Farm
                     </a>
-                    <span className="hidden sm:block">•</span>
-                      <a 
-                        href="https://dandeliondiy.com/" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="hover:text-neutral-800 transition-colors"
-                    >
-                        Collections for ~ Dandelion DIY
-                    </a>
                 </div>
             </div>
         </footer>

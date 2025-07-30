@@ -299,7 +299,7 @@ export default function AddPoemForm({ onPoemAdded }: AddPoemFormProps) {
                 onChange={(e) => handleInputChange('content', e.target.value)}
                 required
                 rows={6}
-                placeholder="Enter your word here..."
+                placeholder="Enter your words here..."
                 className="font-[family-name:var(--font-ibm-plex-mono)] font-normal"
               />
             </div>
