@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   title: "Soft Spot",
   description: "Soft Spot - a community event and archive for sharing words.",
   icons: {
-    icon: "/car.png",
+    icon: "/favicon.ico",
   },
 };
 
