@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { prisma } from '@/lib/db';
 import PoemsClient from './PoemsClient';
 import Navbar from '@/components/Navbar';
