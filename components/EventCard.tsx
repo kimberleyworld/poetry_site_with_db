@@ -26,7 +26,7 @@ function EventCard() {
                                 <p className="text-xs">18:45 at Bridge Farm</p>
                             </div>
                             <Button variant="default" size="sm" className="w-full backdrop-blur-lg bg-white/50 border border-white/30 shadow-xl hover:bg-white/60 text-neutral-700 hover:text-neutral-800 font-[family-name:var(--font-ibm-plex-mono)]" asChild>
-                                <a href="https://hdfst.uk/e135365" target="_blank" rel="noopener noreferrer">
+                                <a href="https://www.headfirstbristol.co.uk/whats-on/bridge-farm/tue-7-oct-soft-spot-138665#e138665" target="_blank" rel="noopener noreferrer">
                                     Get Tickets
                                 </a>
                             </Button>
