@@ -22,8 +22,8 @@ function EventCard() {
                         <div className="backdrop-blur-lg bg-white/10 border border-white/40 rounded-lg p-2 lg:p-4 shadow-xl max-w-xs sm:max-w-sm mx-auto">
                             <h3 className="text-lg font-semibold text-neutral-700 mb-1 font-[family-name:var(--font-ibm-plex-mono)]">Next Event</h3>
                             <div className="text-neutral-700 font-[family-name:var(--font-ibm-plex-mono)] mb-3">
-                                <p className="font-medium text-sm">Tuesday 16th September</p>
-                                <p className="text-xs">18:45 at Bridge Farm</p>
+                                <p className="font-medium text-sm">Tuesday 7th October</p>
+                                <p className="text-xs">19:00 at Bridge Farm</p>
                             </div>
                             <Button variant="default" size="sm" className="w-full backdrop-blur-lg bg-white/50 border border-white/30 shadow-xl hover:bg-white/60 text-neutral-700 hover:text-neutral-800 font-[family-name:var(--font-ibm-plex-mono)]" asChild>
                                 <a href="https://www.headfirstbristol.co.uk/whats-on/bridge-farm/tue-7-oct-soft-spot-138665#e138665" target="_blank" rel="noopener noreferrer">
