@@ -14,15 +14,15 @@ export default function Home() {
       <WebGLBackground />
       <Navbar />
       <NextEventBanner 
-        eventDate="Tuesday 6th April 2026"
+        eventDate="Tuesday 5th May 2026"
         eventTime="19:00"
-        ticketUrl="https://hdfst.uk/e139481"/>
+        ticketUrl="https://www.headfirstbristol.co.uk/whats-on/bridge-farm/tue-5-may-soft-spot-139482#e139482"/>
       <HeroSection />
       <ArchiveSection />
       <EventCard 
-        eventDate="Tuesday 7th April 2026"
+        eventDate="Tuesday 5th May 2026"
         eventTime="19:00"
-        ticketUrl="https://hdfst.uk/e139481"
+        ticketUrl="https://www.headfirstbristol.co.uk/whats-on/bridge-farm/tue-5-may-soft-spot-139482#e139482"
       />
       <Footer />
     </div>
