@@ -19,7 +19,7 @@ function NextEventBanner({
         <div className="backdrop-blur-lg bg-white/20 border border-white/40 rounded-lg p-3 sm:p-4 shadow-xl">
           <div className="flex items-center justify-between gap-2 sm:gap-4">
             <div className="flex items-center gap-2 sm:gap-4 text-neutral-800 font-[family-name:var(--font-ibm-plex-mono)]">
-              <span className="font-semibold text-sm sm:text-lg whitespace-nowrap">Our Anniversary Party:</span>
+              <span className="font-semibold text-sm sm:text-lg whitespace-nowrap">Next Event:</span>
               <span className="font-medium text-xs sm:text-sm">{eventDate}</span>
               <span className="text-xs sm:text-sm text-neutral-700">{eventTime} at Bridge Farm</span>
             </div>
