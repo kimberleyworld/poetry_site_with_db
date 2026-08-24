@@ -8,9 +8,9 @@ interface NextEventBannerProps {
 }
 
 function NextEventBanner({ 
-  eventDate = "Tuesday 1st September",
-  eventTime = "19:00",
-  ticketUrl = "https://hdfst.uk/e150486",
+  eventDate = "",
+  eventTime = "",
+  ticketUrl = "",
   className = ""
 }: NextEventBannerProps) {
   return (
